@@ -16,20 +16,32 @@
 				<div class="row">
 					<h3>Questions</h3>
 					<div class="col-md-4">
-						<h4>Graph</h4>
+						<h4>Shape</h4>
 						<div id="canvas">
 							<canvas id="shapeCanvas"></canvas>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-2">
-					<h4>Questions</h4>
-					<div class="form-group" id="form1">
-						<label id="q1"> Question: How many nodes does this graph has?</label>
-						<input type="text" class="form-control" placeholder="Answer here" id="question1">
-						<button id="send1" type="button" class="btn btn-primary" onclick="questions()">Answer</button>
+				<div class="col-md-2" id="form1">
+					<form name="form">	
+						<h4>Questions</h4>
+						<div class="form-group">
+							<label> Question: Which shape is this?</label>
+							<div class="radio">
+								<label>
+								<input type="radio" name="optionsRadios" id="optionsRadios2" value="rect"> Rectangle.
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+								<input type="radio" name="optionsRadios" id="optionsRadios2" value="circle"> Circle.
+								</label>
+							</div>
+							
+							<button id="send1" type="button" class="btn btn-primary" onclick="questions()">Answer</button>
 					</div>
 				</div>
+					</form>
 				<div class="col-md-2">
 					<h4>Answers</h4>
 					<ul class="list-group">
