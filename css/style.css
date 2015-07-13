@@ -1,0 +1,8 @@
+
+body{
+	background-attachment: fixed;
+	text-align: justify;
+}
+#form1, #form2{
+	display: none;
+}
