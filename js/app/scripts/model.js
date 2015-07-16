@@ -105,7 +105,7 @@ ViewModel.prototype.drawRect = function(){
 ViewModel.prototype.drawCircle = function(){
 	//	Start the drawing path
 	this.shapeContext.beginPath();
-	//	Create a path for the circle with (x,y,radius, start angle, end angle)
+	//	Create a path for the circle with (x,y,radius, start angle, and angle)
 	this.shapeContext.arc(200,115,100,0,2*Math.PI);
 	//	Create the arc
 	this.shapeContext.stroke();
