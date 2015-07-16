@@ -51,7 +51,7 @@ function ViewModel(shapeName){
 }
 
 /*
-	Create the Shapeview. The shape if drawn on a canvas
+	Create the Shapeview. The shape is drawn on a canvas
 	The shape given by the ShapeModel defines the shape
 	that will be drawn in the canvas
 */
@@ -71,6 +71,7 @@ ViewModel.prototype.setupShapeView = function(shapeName){
 //	Function to reset the shape
 ViewModel.prototype.resetView = function(shapeName){
 	this.shapeName = shapeName;
+	this.shapeContext.clearRect(0, 0, this.shapeCanvas.width, this.shapeCanvas.height);
 }
 
 //	Function to select the shape that wil be drawn
