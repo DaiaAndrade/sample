@@ -46,8 +46,8 @@ ShapeModel.prototype.getShape = function(){
 	Recieve the name from the Shape Model and set
 	It from there
 */
-function ViewModel(shapeName){
-	this.setupShapeView(shapeName);
+function View(shapeName){
+	this.setupView(shapeName);
 }
 
 /*
@@ -55,7 +55,7 @@ function ViewModel(shapeName){
 	The shape given by the ShapeModel defines the shape
 	that will be drawn in the canvas
 */
-ViewModel.prototype.setupShapeView = function(shapeName){
+View.prototype.setupView = function(shapeName){
 	//	Handle for the canvas
 	this.shapeCanvas = document.getElementById('shapeCanvas');	
 	//	Handle or the canvas context
@@ -69,13 +69,13 @@ ViewModel.prototype.setupShapeView = function(shapeName){
 }
 
 //	Function to reset the shape
-ViewModel.prototype.resetView = function(shapeName){
+View.prototype.resetView = function(shapeName){
 	this.shapeName = shapeName;
 	this.shapeContext.clearRect(0, 0, this.shapeCanvas.width, this.shapeCanvas.height);
 }
 
 //	Function to select the shape that wil be drawn
-ViewModel.prototype.drawShape = function(){
+View.prototype.drawShape = function(){
 	//	Erase the canvas
 	this.shapeContext.clearRect(0, 0, this.shapeCanvas.width, this.shapeCanvas.height);
 	//	Set the size
@@ -93,7 +93,7 @@ ViewModel.prototype.drawShape = function(){
 }
 
 //	Function to draw rectangle
-ViewModel.prototype.drawRect = function(){
+View.prototype.drawRect = function(){
 	//	Start the drawing path
 	this.shapeContext.beginPath();
 	//	Set the fill for the rectangle
@@ -103,7 +103,7 @@ ViewModel.prototype.drawRect = function(){
 }
 
 //	Function to draw circle
-ViewModel.prototype.drawCircle = function(){
+View.prototype.drawCircle = function(){
 	//	Start the drawing path
 	this.shapeContext.beginPath();
 	//	Create a path for the circle with (x,y,radius, start angle, and angle)

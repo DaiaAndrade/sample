@@ -12,20 +12,20 @@
 */
 
 //	Controller for the model
-function ViewController(){
+function Controller(){
 	//	Create the shape model
 	this.shapeModel = new ShapeModel();
 	//	Create the view model with the shape of the Shape Model
-	this.shapeView = new ViewModel(this.shapeModel.getShape());
+	this.shapeView = new View(this.shapeModel.getShape());
 }
 
 //	Function for draw the shape in the canvas
-ViewController.prototype.drawCanvas = function(){
+Controller.prototype.drawCanvas = function(){
 	//	Tell de view to drap the shape
 	this.shapeView.drawShape();
 }
 
-ViewController.prototype.resetController = function(){
+Controller.prototype.resetController = function(){
 	this.shapeModel.shapeReset();
 	this.shapeView.resetView(this.shapeModel.getShape());
 }
@@ -39,25 +39,10 @@ ViewController.prototype.resetController = function(){
 function Queue(size){
 	//	Create the Queue as a vector
 	this.queue = [];
-	for (var i = 0; i < size ; i++){
+	this.queueSize = size;
+	for (var i = 0; i < this.queueSize ; i++){
 		//	Put null informaton inside of it
 		this.queue.push(null);
-	}
-}
-
-/*
-	function to check if the queue has the correct
-	amount of true inside of it. Used to 
-	finish the questions
-*/
-
-Queue.prototype.queueCheck = function(){
-	var trueCounter = this.trueCounter();
-	if (trueCounter >= 4) {
-		return true;
-	}
-	else{
-		return false;
 	}
 }
 
@@ -75,14 +60,24 @@ Queue.prototype.queueAdd = function(value){
 	function that counts the amount of true values
 	inside the queue
 */
-Queue.prototype.trueCounter = function(){
-	var trueCounter = 0;
+Queue.prototype.correctAnswerCounter = function(){
+	var counter = 0;
 	for (var count in this.queue){
 		if (this.queue[count] == true) {
-			trueCounter += 1;
+			counter += 1;
 		}
 	}
-	return trueCounter;
+	return counter;
+}
+
+/*
+	function to check if the queue has the correct
+	amount of true inside of it. Used to 
+	finish the questions
+*/
+
+Queue.prototype.queueCheck = function(){
+	return this.correctAnswerCounter() >= (this.queueSize - 1);
 }
 
 /*	
@@ -97,7 +92,7 @@ pipit.CapiAdapter.expose('done', simModel);
 pipit.Controller.notifyOnReady();
 
 /*	Global variables to be used during the execution	*/
-var viewController = new ViewController();
+var viewController = new Controller();
 var queue = new Queue(5);
 
 /*	main function where the graph should be drawn	*/
@@ -110,10 +105,10 @@ questions = function() {
 	//	Take the element from the HTML
 	//	There's different ways to make this, but for radio structure
 	//	this one was the most effective one, using jquery
-	var answer1 = $('input[name="optionsRadios"]:checked').val();
+	//	compares the element to the actual shape
 
-	//	Is the answer from the HTML equal to the actual shape?
-	if(answer1 == viewController.shapeModel.getShape()){
+	//	Is the element from the HTML equal to the actual shape?
+	if(($('input[name="optionsRadios"]:checked').val()) == (viewController.shapeModel.getShape())){
 		//	add true in the queue
 		queue.queueAdd(true);
 	}
@@ -123,7 +118,7 @@ questions = function() {
 	}
 
 	//	viewers tracking of answers
-	document.getElementById('correct1').innerHTML = "Number of right Answers: " + queue.trueCounter();
+	document.getElementById('correct1').innerHTML = "Number of right answers: " + queue.correctAnswerCounter() + " out of " + (queue.queueSize - 1);
 
 	//	Do we have the right queue answers?
 	if (queue.queueCheck() == true) {
@@ -131,8 +126,6 @@ questions = function() {
 		/*	change the status of the SmartSparrow variable for true to show that
 			the student is able to continue the lesson	*/
 		simModel.set('done', true);
-		//	expose the answer for the SmartSparrow
-		pipit.CapiAdapter.expose('done', simModel);
 		pipit.Controller.notifyOnReady();
 	}
 	// The amount is not right
@@ -157,6 +150,25 @@ $('#send1').click(function(){
 		viewController.resetController();
 		//	Draw in the canvas
 		main();
+	}
+	//	reset the radio button to uncheck
+	$('input[name="optionsRadios"]').prop('checked', false);
+	//	disable the submit button
+	document.getElementById("send1").disabled = true;
+})
+
+//	While the user do not choose any shape, the button is disabled
+$('input[type="radio"]').change(function(){
+	//	check the value of the radio
+	var checked = $('input[name="optionsRadios"]:checked').val();
+	//	Is the radio choosen?
+	if (($('input[name="optionsRadios"]:checked').val()) != "") {
+		//	Enable the button
+		document.getElementById("send1").disabled = false;
+	}
+	else{
+		//	Disable the button
+		document.getElementById("send1").disabled = true;
 	}
 })
 
